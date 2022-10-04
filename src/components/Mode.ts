@@ -10,6 +10,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 // GLTF 模型加载器
 const gltfLoader=new GLTFLoader()
+//射线投射器，可基于鼠标点和相机，在世界坐标系内建立一条射线，用于选中模型
+const raycaster = new Raycaster()
+//鼠标在裁剪空间中的点位
+const pointer = new Vector2()
+
 
 export default class Mode{
   // 渲染器
@@ -24,6 +29,20 @@ export default class Mode{
   modelPath: string
   // 纹理集合
   maps:Map<string,Texture> = new Map();
+
+
+  //建筑集合
+  cabinets: Mesh[] = []
+  //鼠标划入的建筑
+  curCabinet:Mesh
+  //鼠标划入建筑事件，参数为建筑对象
+  onMouseOverCabinet = (cabinet:Mesh) => { }
+  //鼠标在建筑上移动的事件，参数为鼠标在canvas画布上的坐标位
+  onMouseMoveCabinet = (x:number,y:number) => { }
+  //鼠标划出建筑的事件
+  onMouseOutCabinet = () => { }
+
+  pre_color: Color[] = []
 
 
   // 初始化场景
@@ -51,14 +70,21 @@ export default class Mode{
     console.log("path: ",this.modelPath + modelName);
 
     gltfLoader.load(this.modelPath + modelName, ({ scene: { children } }) => {
+
       console.log("children:",...children);
-      children.forEach((obj:Mesh) => {
+
+      children.forEach((obj:Mesh,index) => {
         if(obj.material) {
           const { map,color} = obj.material as MeshStandardMaterial;
           this.changeMat(obj,map,color);
         }
+        if(obj.name.includes('build')) {
+          this.cabinets.push(obj);
+        }
+
       })
       this.scene.add(...children);
+
     })
     this.scene.add(new THREE.AmbientLight(0xFFFFFF));//环境光
     this.scene.traverse( function ( child:Mesh ) {
@@ -101,5 +127,75 @@ export default class Mode{
     requestAnimationFrame(() => {
       this.animate()
     })
+  }
+
+  // 选择build
+  selectCabinet(x:number, y:number) {
+    const {cabinets,renderer,camera,maps,curCabinet}=this
+    const { width, height } = renderer.domElement
+
+    // 鼠标的canvas坐标转裁剪坐标
+    pointer.set(
+      (x / width) * 2 - 1,
+      -(y / height) * 2 + 1,
+    )
+    // 基于鼠标点的裁剪坐标位和相机设置射线投射器
+    raycaster.setFromCamera(
+      pointer, camera
+    )
+    // 选择建筑
+    const intersect = raycaster.intersectObjects(cabinets)[0]
+    let intersectObj = intersect? intersect.object as Mesh : null
+
+    // console.log("curCabinet:",curCabinet);
+    // console.log("intersectObj:",intersectObj);
+
+
+    // 若之前已有建筑被选择，且不等于当前所选择的建筑，取消之前选择的建筑的高亮
+    if (curCabinet && curCabinet !== intersectObj) {
+
+      const material = curCabinet.material as MeshBasicMaterial;
+      let arr = curCabinet.parent.children;
+      arr.forEach((obj:Mesh,index) => {
+        let _material = obj.material as MeshBasicMaterial;
+        _material.color = new THREE.Color(this.pre_color[index]);
+        _material.opacity = 1;//透明度
+      });
+    }
+
+    /* 
+      若当前所选对象不为空：
+        触发鼠标在建筑上移动的事件。
+        若当前所选对象不等于上一次所选对象：
+          更新curCabinet。
+          将模型高亮。
+          触发鼠标划入建筑事件。
+      否则若上一次所选对象存在：
+        置空curCabinet。
+        触发鼠标划出建筑事件。
+    */
+
+      
+    if (intersectObj) {
+      this.onMouseMoveCabinet(x,y)
+      if (intersectObj !== curCabinet) {
+        this.curCabinet = intersectObj
+        const material = intersectObj.material as MeshBasicMaterial
+        let arr = intersectObj.parent.children;
+
+        arr.forEach((obj:Mesh) => {
+          let _material = obj.material as MeshBasicMaterial;
+          _material.transparent = true;//是否透明
+          _material.opacity = 0.6;//透明度
+          this.pre_color.push(_material.color);
+          _material.color = new THREE.Color('rgb(107, 105, 81)');
+        })
+
+        this.onMouseOverCabinet(intersectObj)
+      }
+    } else if(curCabinet) {
+      this.curCabinet = null
+      this.onMouseOutCabinet()
+    }
   }
 }
