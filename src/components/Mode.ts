@@ -32,15 +32,15 @@ export default class Mode{
 
 
   //建筑集合
-  cabinets: Mesh[] = []
+  Builds: Mesh[] = []
   //鼠标划入的建筑
-  curCabinet:Mesh
+  curBuild:Mesh
   //鼠标划入建筑事件，参数为建筑对象
-  onMouseOverCabinet = (cabinet:Mesh) => { }
+  onMouseOverBuild = (Build:Mesh) => { }
   //鼠标在建筑上移动的事件，参数为鼠标在canvas画布上的坐标位
-  onMouseMoveCabinet = (x:number,y:number) => { }
+  onMouseMoveBuild = (x:number,y:number) => { }
   //鼠标划出建筑的事件
-  onMouseOutCabinet = () => { }
+  onMouseOutBuild = () => { }
 
   pre_color: Color[] = []
 
@@ -79,7 +79,7 @@ export default class Mode{
           this.changeMat(obj,map,color);
         }
         if(obj.name.includes('build')) {
-          this.cabinets.push(obj);
+          this.Builds.push(obj);
         }
 
       })
@@ -130,8 +130,8 @@ export default class Mode{
   }
 
   // 选择build
-  selectCabinet(x:number, y:number) {
-    const {cabinets,renderer,camera,maps,curCabinet}=this
+  selectBuild(x:number, y:number) {
+    const {Builds,renderer,camera,maps,curBuild}=this
     const { width, height } = renderer.domElement
 
     // 鼠标的canvas坐标转裁剪坐标
@@ -144,18 +144,18 @@ export default class Mode{
       pointer, camera
     )
     // 选择建筑
-    const intersect = raycaster.intersectObjects(cabinets)[0]
+    const intersect = raycaster.intersectObjects(Builds)[0]
     let intersectObj = intersect? intersect.object as Mesh : null
 
-    // console.log("curCabinet:",curCabinet);
+    // console.log("curBuild:",curBuild);
     // console.log("intersectObj:",intersectObj);
 
 
     // 若之前已有建筑被选择，且不等于当前所选择的建筑，取消之前选择的建筑的高亮
-    if (curCabinet && curCabinet !== intersectObj) {
+    if (curBuild && curBuild !== intersectObj) {
 
-      const material = curCabinet.material as MeshBasicMaterial;
-      let arr = curCabinet.parent.children;
+      const material = curBuild.material as MeshBasicMaterial;
+      let arr = curBuild.parent.children;
       arr.forEach((obj:Mesh,index) => {
         let _material = obj.material as MeshBasicMaterial;
         _material.color = new THREE.Color(this.pre_color[index]);
@@ -167,19 +167,19 @@ export default class Mode{
       若当前所选对象不为空：
         触发鼠标在建筑上移动的事件。
         若当前所选对象不等于上一次所选对象：
-          更新curCabinet。
+          更新curBuild。
           将模型高亮。
           触发鼠标划入建筑事件。
       否则若上一次所选对象存在：
-        置空curCabinet。
+        置空curBuild。
         触发鼠标划出建筑事件。
     */
 
       
     if (intersectObj) {
-      this.onMouseMoveCabinet(x,y)
-      if (intersectObj !== curCabinet) {
-        this.curCabinet = intersectObj
+      this.onMouseMoveBuild(x,y)
+      if (intersectObj !== curBuild) {
+        this.curBuild = intersectObj
         const material = intersectObj.material as MeshBasicMaterial
         let arr = intersectObj.parent.children;
 
@@ -188,14 +188,14 @@ export default class Mode{
           _material.transparent = true;//是否透明
           _material.opacity = 0.6;//透明度
           this.pre_color.push(_material.color);
-          _material.color = new THREE.Color('rgb(107, 105, 81)');
+          // _material.color = new THREE.Color('rgb(107, 105, 81)');
         })
 
-        this.onMouseOverCabinet(intersectObj)
+        this.onMouseOverBuild(intersectObj)
       }
-    } else if(curCabinet) {
-      this.curCabinet = null
-      this.onMouseOutCabinet()
+    } else if(curBuild) {
+      this.curBuild = null
+      this.onMouseOutBuild()
     }
   }
 }
