@@ -4,7 +4,6 @@ module.exports = {
     node: true
   },
   extends: [
-    'plugin:react/recommended'
   ],
   parserOptions: {
     ecmaVersion: 2020,

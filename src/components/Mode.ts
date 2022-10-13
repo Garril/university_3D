@@ -41,13 +41,16 @@ export default class Mode{
   onMouseMoveBuild = (x:number,y:number) => { }
   //鼠标划出建筑的事件
   onMouseOutBuild = () => { }
+  // 点击建筑
+  onMouseClickBuild = (index:String) => {}
 
   pre_color: Color[] = []
 
 
   // 初始化场景
   constructor(canvas: HTMLCanvasElement,modelPath: string = './models/') {
-    console.log("canvas: ",canvas);
+    
+    // console.log("canvas: ",canvas);
     this.renderer = new WebGLRenderer({ canvas })
     this.scene=new Scene()
     this.camera = new PerspectiveCamera(
@@ -62,16 +65,16 @@ export default class Mode{
     this.modelPath=modelPath
 
     this.renderer.setClearColor(new THREE.Color(0x666666))
-  }
 
+  }
 
   // 加载GLTF模型
   loadGLTF(modelName: string = '') {
-    console.log("path: ",this.modelPath + modelName);
+    // console.log("path: ",this.modelPath + modelName);
 
     gltfLoader.load(this.modelPath + modelName, ({ scene: { children } }) => {
 
-      console.log("children:",...children);
+      // console.log("children:",...children);
 
       children.forEach((obj:Mesh,index) => {
         if(obj.material) {
@@ -93,6 +96,20 @@ export default class Mode{
         child.material['emissiveMap'] = child.material['map'];
       }
     });
+
+    // 监听点击事件
+    this.renderer.domElement.addEventListener(
+      "click",
+      event => {
+        const mouse = new THREE.Vector2();
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, this.camera);
+        const intersects = raycaster.intersectObjects(this.Builds)[0];
+        const index = intersects?.object?.parent?.name.slice(-1);
+        this.onMouseClickBuild(index);
+      }
+    ) 
   }
 
   // 修改材质

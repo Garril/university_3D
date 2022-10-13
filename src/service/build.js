@@ -1,10 +1,10 @@
 import request from './request'
 
-export function getBuildDate(bid) {
+export function getBuildClassData(bid,data) {
   return request({
-    url: "",
+    url: "/build",
     params: {
-      bid
+      bid,data
     }
   })
 }
