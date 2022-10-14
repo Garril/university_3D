@@ -1,0 +1,37 @@
+#class_container {
+  position: absolute;
+  top: 8%;
+  left: 26%;
+  background-color: rgb(255, 255, 255);
+  z-index: 999;
+  width: 50%;
+  height: 80%;
+  margin: 0 auto;
+}
+.display_block {
+  display: block;
+}
+.display_none {
+  display: none;
+}
+
+.header {
+  display: flex;
+  height: 48px;
+  background-color: rgb(135, 164, 195);
+  align-items: center;
+  justify-content: flex-end;
+}
+.title {
+  width: 125px;
+  text-align: center;
+}
+.middle {
+  width: 79%;
+}
+.close {
+  flex: 1;
+  text-align: center;
+  font-size: 27px;
+  font-weight: bolder;
+}

@@ -2,7 +2,21 @@ import { useState, memo, useEffect, useCallback } from 'react';
 import './style.css';
 import Mode from '../../components/Mode';
 
-import { connect, useSelector, shallowEqual } from 'react-redux';
+import { 
+  getBuildClassData 
+} from '../../service/build';
+
+import store from '../../store/index';
+import {
+  saveClass,
+  changeCurClassList,
+  changeTabelOpenStatus
+} from '../../store/actionCreators'
+
+import {
+  getToday,
+  getTodayWeek
+} from '../../utils/date'
 
 //建筑对象
 let room: Mode
@@ -51,6 +65,13 @@ const Build = memo((props: any) => {
       }
       setBuildDisplay('block');
     }
+
+
+    store.subscribe(() => {
+      console.log(store.getState());
+    })
+
+
     //当鼠标在建筑上移动，让信息面板随鼠标移动
     room.onMouseMoveBuild = (left,top) => {
       setBuildPos({ left, top})
@@ -60,11 +81,31 @@ const Build = memo((props: any) => {
       setBuildDisplay('none');
     }
     room.onMouseClickBuild = (bid: string) => {
-      let _data = '2022-10-13';
       if(bid) {
-        console.log(bid);
+        let _data = getToday();
+        let key = bid + '-' + _data;
+        let list = store.getState().class_data[key];
+
+        if(!list && bid !=='6') { // store内没有对应建筑对应日期的课表信息
+          getBuildClassData(bid,_data).then(res => {
+            store.dispatch(saveClass(res));
+          })
+        } else { // 有对应信息应该进行改变
+          if(list?.length > 0) {
+            let cur_item = list[0];
+            store.dispatch(changeCurClassList(cur_item))
+          } else if(bid == '6') { // 教六没有课，特殊处理
+            let cur_item = {
+              ondata: _data,
+              bid: bid,
+              week: getTodayWeek()
+            };
+            store.dispatch(changeCurClassList(cur_item))
+          }
+        }
+        store.dispatch(changeTabelOpenStatus(true));
       }
-    }    
+    }
   }, []);
 
   // 鼠标移动事件
@@ -73,17 +114,17 @@ const Build = memo((props: any) => {
   };
   
   // 建立canvas 画布，并通过ref 获取其HTMLCanvasElement对象
-  return <div className="build_box" onMouseMove={mouseMove}>
-    <canvas
-      id='canvas'
-      ref={ele => canvas = ele}
-    ></canvas>
-    <div
-      id='build'
-      style={{ left: buildPos.left, top: buildPos.top, display: buildDisplay }}>
-      <p>建筑名称：{ curBuild.bname }</p>
+  return (
+    <div className="build_box" onMouseMove={mouseMove}>
+
+        <canvas id='canvas' ref={ele => canvas = ele} ></canvas>
+
+        <div id='build' style={{ left: buildPos.left, top: buildPos.top, display: buildDisplay }}>
+          <p>建筑名称：{ curBuild.bname }</p>
+        </div>
+
     </div>
-  </div>
+  )
 })
 
 export default Build;
