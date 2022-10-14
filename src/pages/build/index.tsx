@@ -68,7 +68,7 @@ const Build = memo((props: any) => {
 
 
     store.subscribe(() => {
-      console.log(store.getState());
+      // console.log(store.getState());
     })
 
 
@@ -84,25 +84,13 @@ const Build = memo((props: any) => {
       if(bid) {
         let _data = getToday();
         let key = bid + '-' + _data;
-        let list = store.getState().class_data[key];
-
-        if(!list && bid !=='6') { // store内没有对应建筑对应日期的课表信息
-          getBuildClassData(bid,_data).then(res => {
-            store.dispatch(saveClass(res));
-          })
-        } else { // 有对应信息应该进行改变
-          if(list?.length > 0) {
-            let cur_item = list[0];
-            store.dispatch(changeCurClassList(cur_item))
-          } else if(bid == '6') { // 教六没有课，特殊处理
-            let cur_item = {
-              ondata: _data,
-              bid: bid,
-              week: getTodayWeek()
-            };
-            store.dispatch(changeCurClassList(cur_item))
-          }
-        }
+        let cur_item = {
+          ondata: _data,
+          bid: bid,
+          week: getTodayWeek(),
+          key: key
+        };
+        store.dispatch(changeCurClassList(cur_item))
         store.dispatch(changeTabelOpenStatus(true));
       }
     }

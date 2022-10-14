@@ -6,20 +6,30 @@ import {
 import './style.css'
 import ClassList from './childComps/classList'
 
+import {
+  translateWeek
+} from '../../utils/date'
+
 const App: React.FC = () => {
   
   const [open,setOpen] = useState(false);
+  const [cur_bid,setCurBid] = useState('0');
+  const [cur_week,setCurWeek] = useState('一');
+
   const handleCancel = () => {
     store.dispatch(changeTabelOpenStatus(false));
   };
   store.subscribe(() => {
-    setOpen(store.getState().open)
+    let data = store.getState();
+    setOpen(data.open);
+    setCurBid(data.cur_bid);
+    setCurWeek(translateWeek(data.cur_week));
   })
 
   return (
     <div id="class_container" className={open?'display_block':'display_none'}>
       <header onClick={handleCancel} className='header'>
-        <span className='title'>教学一号楼</span>
+        <span className='title'>教{cur_bid}-周{cur_week}-课表</span>
         <span className='middle'></span>
         <span className='close'>×</span>
       </header>

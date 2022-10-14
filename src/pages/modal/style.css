@@ -23,11 +23,11 @@
   justify-content: flex-end;
 }
 .title {
-  width: 125px;
+  width: 150px;
   text-align: center;
 }
 .middle {
-  width: 79%;
+  width: 75%;
 }
 .close {
   flex: 1;
