@@ -1,12 +1,12 @@
-#class_container {
+#container {
   position: absolute;
-  top: 8%;
-  left: 26%;
+  top: 3%;
+  left: 18%;
   background-color: rgb(255, 255, 255);
   z-index: 999;
-  width: 50%;
-  height: 80%;
-  margin: 0 auto;
+  width: 70%;
+  height: 92%;
+  padding-bottom: 55px;
 }
 .display_block {
   display: block;
@@ -25,9 +25,11 @@
 .title {
   width: 150px;
   text-align: center;
+  font-size: 18px;
+  font-weight: bolder;
 }
 .middle {
-  width: 75%;
+  width: 80%;
 }
 .close {
   flex: 1;

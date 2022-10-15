@@ -27,7 +27,7 @@ const App: React.FC = () => {
   })
 
   return (
-    <div id="class_container" className={open?'display_block':'display_none'}>
+    <div id="container" className={open?'display_block':'display_none'}>
       <header onClick={handleCancel} className='header'>
         <span className='title'>教{cur_bid}-周{cur_week}-课表</span>
         <span className='middle'></span>
