@@ -23,13 +23,13 @@ const App: React.FC = () => {
     let data = store.getState();
     setOpen(data.open);
     setCurBid(data.cur_bid);
-    setCurWeek(translateWeek(data.cur_week));
+    setCurWeek(data.cur_week);
   })
 
   return (
     <div id="container" className={open?'display_block':'display_none'}>
       <header onClick={handleCancel} className='header'>
-        <span className='title'>教{cur_bid}-周{cur_week}-课表</span>
+        <span className='title'>{'教' + cur_bid + '-周' + translateWeek(cur_week) + '-课表'}</span>
         <span className='middle'></span>
         <span className='close'>×</span>
       </header>

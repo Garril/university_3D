@@ -21,7 +21,7 @@ let _data = getToday();
 
 arr.forEach( item => {
   getBuildClassData(item,_data).then(res => {
-    store.dispatch(saveClass(res))
+    if(res.length) store.dispatch(saveClass(res))
   })
 })
 

@@ -7,12 +7,16 @@ export const getToday = () => {
 }
 
 export const getTodayWeek = () => {
+  if(dayjs().day() == '0') {
+    return '7';
+  }
   return dayjs().day();
+
 }
 export const translateWeek = (num) => {
   let res = '';
   switch(num) {
-    case '1':
+    case "1":
       res = "一";
       break;
     case "2":
@@ -32,6 +36,8 @@ export const translateWeek = (num) => {
       break;
     case "7":
       res = "日";
+      break;
+    default:
       break;
   }
   return res;
