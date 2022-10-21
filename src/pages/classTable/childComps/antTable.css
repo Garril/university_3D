@@ -1,0 +1,8 @@
+.relatedPartyMaint {
+  height: 20% !important;
+}
+.relatedPartyMaint td.ant-table-cell{
+  overflow: auto;
+  white-space: wrap;
+  text-overflow: clip;
+}

@@ -2,7 +2,7 @@ import React, { memo, Fragment } from 'react';
 
 // 组件
 import Build from './pages/build/index'
-import Modal from './pages/modal/index'
+import Modal from './pages/classTable/index'
 
 const App = memo(() => {
   return (

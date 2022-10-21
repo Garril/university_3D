@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 
 import store from '../../../store/index'
+import './antTable.css'
 
 interface DataType {
   key: string,
@@ -70,11 +71,11 @@ const App: React.FC = () => {
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
             size="small"
-            style={{ width: 60 }}
+            style={{ width: 80 }}
           >
             Reset
           </Button>
-          <Button
+          {/* <Button
             type="link"
             size="small"
             onClick={() => {
@@ -84,7 +85,7 @@ const App: React.FC = () => {
             }}
           >
             Filter
-          </Button>
+          </Button> */}
         </Space>
       </div>
     ),
@@ -117,9 +118,7 @@ const App: React.FC = () => {
   store.subscribe(() => {
     let _key = store.getState().cur_key;
     let list = store.getState().class_data[_key];
-    console.log("_key",_key);
-    console.log("list",list);
-    console.log("state:", store.getState());
+    
     setData(list);
     setTotal(list?.length);
   })
@@ -129,7 +128,7 @@ const App: React.FC = () => {
       title: '课室',
       dataIndex: 'location',
       key: 'location',
-      width: '15%',
+      width: '12%',
       ...getColumnSearchProps('location'),
       sorter: (a, b) => {
         return Number(a.location.slice(-3)) - Number(b.location.slice(-3))
@@ -140,7 +139,7 @@ const App: React.FC = () => {
       title: '节次',
       dataIndex: 'section',
       key: 'section',
-      width: '15%',
+      width: '12%',
       ...getColumnSearchProps('section'),
       sorter: (a, b) => {
         return Number(a.section.slice(0,4)) - Number(b.section.slice(0,4))
@@ -151,7 +150,7 @@ const App: React.FC = () => {
       title: '课程名',
       dataIndex: 'course_name',
       key: 'course_name',
-      width: '25%',
+      width: '20%',
       ...getColumnSearchProps('course_name'),
     },
     {
@@ -175,7 +174,8 @@ const App: React.FC = () => {
 
   return <Table 
             columns={columns} 
-            dataSource={data} 
+            dataSource={data}
+            rowClassName={'relatedPartyMaint'}
             pagination={{
               position: ['bottomCenter'],
               showSizeChanger: true,

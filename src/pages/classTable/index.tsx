@@ -33,7 +33,9 @@ const App: React.FC = () => {
         <span className='middle'></span>
         <span className='close'>×</span>
       </header>
-      <ClassList></ClassList>
+      <div id='list'>
+        <ClassList></ClassList>
+      </div>
     </div>
   );
 };

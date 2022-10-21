@@ -5,6 +5,8 @@
   position: relative;
   z-index: 888;
 }
-#classlist_container div.ant-table-wrapper {
+#classlist_container div.ant-table-wrapper,
+div.ant-spin-container,
+div.ant-spin-nested-loading {
   height: 100%;
 }
