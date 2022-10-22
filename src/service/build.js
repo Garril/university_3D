@@ -8,3 +8,12 @@ export function getBuildClassData(bid,data) {
     }
   })
 }
+
+export function getEmptyData(bid,data) {
+  return request({
+    url: "/build/empty",
+    params: {
+      bid,data
+    }
+  })
+}

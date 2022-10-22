@@ -2,7 +2,9 @@ import {
   SAVE_CLASS,
   UPDATE_CLASS,
   CHANGE_TABLE_OPEN_STATUS,
-  CHANGE_CUR_CLASS_LIST
+  CHANGE_CUR_CLASS_LIST,
+  SAVE_EMPTY,
+  IS_EMPTY_STATUS
 } from './constants';
 
 const defaultState = {
@@ -12,13 +14,16 @@ const defaultState = {
   cur_bid: '',
   cur_key: '',
   open: false,
+  // 空教室相关
+  empty_data: {},
+  isEmpty: false,
 }
 
 let data,key,example;
 
 function reducer(state = defaultState, action) {
   switch (action.type) {
-    case SAVE_CLASS:
+    case SAVE_CLASS: // 保存 xx日 的课表信息
       data = action.data;
       example = data[0];
       if(example) {
@@ -30,7 +35,7 @@ function reducer(state = defaultState, action) {
       state.class_data[state.cur_key] = data;
       return { ...state };
 
-    case CHANGE_CUR_CLASS_LIST:
+    case CHANGE_CUR_CLASS_LIST: // 保存当前点击的 建筑 的信息
       data = action.item;
       if(data) {
         state.cur_ondata = data.ondata; // 保存当前查询日期 eg：2022-x-y
@@ -41,14 +46,21 @@ function reducer(state = defaultState, action) {
       // console.log(data)
       return { ...state };
 
-    case CHANGE_TABLE_OPEN_STATUS:
+    case CHANGE_TABLE_OPEN_STATUS: // 改变表格显示状态
       return { ...state, open: action.status };
-    
 
-    case UPDATE_CLASS:
+    case IS_EMPTY_STATUS:
+      return { ...state, isEmpty: action.status };
+
+    case SAVE_EMPTY: // 保存 空闲教室 的信息
       data = action.data;
+      example = data[0];
+      if(example) {
+        let key = example.bid + '-' + example.ondata
+        state.empty_data[key] = data;
+        state.cur_key = key;
+      }
       return { ...state };
-
     default:
       return state;
   }

@@ -21,6 +21,7 @@ interface DataType {
 type DataIndex = keyof DataType;
 
 const App: React.FC = () => {
+  // table相关
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
 
@@ -28,9 +29,12 @@ const App: React.FC = () => {
   const [curPageSize,setCurPageSize] = useState(10);
   const [total,setTotal] = useState(0);
 
-  const [data, setData] = useState([]);
-  
   const searchInput = useRef<InputRef>(null);
+
+  // 渲染的数据
+  const [data, setData] = useState([]);
+  // 是否渲染的为空闲教室
+  const [isEmpty,setIsEmpty] = useState(false);
 
   const handleSearch = (
     selectedKeys: string[],
@@ -117,13 +121,20 @@ const App: React.FC = () => {
 
   store.subscribe(() => {
     let _key = store.getState().cur_key;
-    let list = store.getState().class_data[_key];
+    let _isEmpty = store.getState().isEmpty;
+    let list;
+    if(_isEmpty) {
+      list = store.getState().empty_data[_key];
+    } else {
+      list = store.getState().class_data[_key];
+    }
     // console.log(_key,list);
+    setIsEmpty(store.getState().isEmpty);
     setData(list);
     setTotal(list?.length);
   })
 
-  const columns: ColumnsType<DataType> = [
+  const table_class_row: ColumnsType<DataType> = [
     {
       title: '课室',
       dataIndex: 'location',
@@ -168,12 +179,34 @@ const App: React.FC = () => {
       ...getColumnSearchProps('class_name'),
     }
   ];
-  const paginationProps = { 
-    current: 1  // 当前页码
-  };
+  const table_empty_row: ColumnsType<DataType> = [
+    {
+      title: '课室',
+      dataIndex: 'location',
+      key: 'location',
+      width: '12%',
+      ...getColumnSearchProps('location'),
+      sorter: (a, b) => {
+        return Number(a.location.slice(-3)) - Number(b.location.slice(-3))
+      },
+      sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: '节次',
+      dataIndex: 'section',
+      key: 'section',
+      width: '12%',
+      ...getColumnSearchProps('section'),
+      sorter: (a, b) => {
+        return Number(a.section.slice(0,4)) - Number(b.section.slice(0,4))
+      },
+      sortDirections: ['descend', 'ascend'],
+    }
+  ];
+
 
   return <Table 
-            columns={columns} 
+            columns={isEmpty? table_empty_row : table_class_row} 
             dataSource={data}
             rowClassName={'relatedPartyMaint'}
             pagination={{

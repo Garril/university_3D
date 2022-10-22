@@ -7,11 +7,13 @@ import {
 } from '../utils/date'
 
 import { 
-  getBuildClassData 
+  getBuildClassData,
+  getEmptyData
 } from '../service/build'
 
 import {
-  saveClass
+  saveClass,
+  saveEmpty
 } from './actionCreators'
 
 const store = createStore(reducer);
@@ -22,6 +24,9 @@ let _data = getToday();
 arr.forEach( item => {
   getBuildClassData(item,_data).then(res => {
     if(res.length) store.dispatch(saveClass(res))
+  })
+  getEmptyData(item,_data).then(res => {
+    if(res.length) store.dispatch(saveEmpty(res))
   })
 })
 

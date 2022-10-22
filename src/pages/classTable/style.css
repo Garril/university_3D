@@ -25,22 +25,31 @@
 .header {
   display: flex;
   height: 48px;
+  width: 100%;
   background-color: rgb(135, 164, 195);
   align-items: center;
   justify-content: flex-end;
 }
 .title {
   width: 20%;
-  text-align: left;
-  padding-left: 16px;
+  text-align: center;
+  padding: 0px 16px;
   font-size: 18px;
   font-weight: bolder;
 }
+.add_border {
+  border-right: 2px solid rgba(56, 87, 121, 0.6);
+}
+.add_hover:hover {
+  color: rgb(214, 238, 248);
+  cursor: pointer;
+}
 .middle {
-  width: 75%;
+  flex: 1;
+  height: 100%;
 }
 .close {
-  flex: 1;
+  width: 5%;
   text-align: center;
   font-size: 27px;
   font-weight: bolder;

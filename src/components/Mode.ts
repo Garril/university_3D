@@ -74,7 +74,7 @@ export default class Mode{
 
     gltfLoader.load(this.modelPath + modelName, ({ scene: { children } }) => {
 
-      console.log("children:",...children);
+      // console.log("children:",...children);
 
       children.forEach((obj:Mesh,index) => {
         if(obj.material) { // 只有 Floor会走这里
