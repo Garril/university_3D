@@ -175,7 +175,7 @@ export default class Mode{
       let arr = curBuild.parent.children;
       arr.forEach((obj:Mesh,index) => {
         let _material = obj.material as MeshBasicMaterial;
-        _material.color = new THREE.Color(this.pre_color[index]);
+        // _material.color = new THREE.Color(this.pre_color[index]);
         _material.opacity = 1;//透明度
       });
     }
@@ -196,19 +196,25 @@ export default class Mode{
     if (intersectObj) { // 说明鼠标获取到了目标建筑
       this.onMouseMoveBuild(x,y) // 主要是获取位置，好去显示信息面板
       if (intersectObj !== curBuild) {
-        this.curBuild = intersectObj
-        const material = intersectObj.material as MeshBasicMaterial
+        this.curBuild = intersectObj // 这里修改了curBuild
+        // const material = intersectObj.material as MeshBasicMaterial
         let arr = intersectObj.parent.children;
+        // console.log("arr:",arr);
 
         arr.forEach((obj:Mesh) => {
           let _material = obj.material as MeshBasicMaterial;
           _material.transparent = true;//是否透明
           _material.opacity = 0.6;//透明度
-          this.pre_color.push(_material.color);
+          // this.pre_color.push(_material.color);
+          /*
+            bug：这里pre_color数组对应的index不对，搞得后续
+            且：就算到下面重置pre_color,也发现，是思路本身存在问题，
+            当你hover过快的时候，仍然会出现，部分建筑离开hover状态后颜色变黑的问题
+          */
           // _material.color = new THREE.Color('rgb(107, 105, 81)');
         })
 
-        this.onMouseOverBuild(intersectObj)
+        this.onMouseOverBuild(intersectObj) // 鼠标停留建筑上，显示信息面板
       }
     } else if(curBuild) {
       this.curBuild = null

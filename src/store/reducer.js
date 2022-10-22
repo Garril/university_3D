@@ -38,7 +38,7 @@ function reducer(state = defaultState, action) {
         state.cur_bid = parseInt(data.bid).toString(); // 保存当前被查询建筑的bid
         state.cur_key = data.key;
       }
-      console.log(data)
+      // console.log(data)
       return { ...state };
 
     case CHANGE_TABLE_OPEN_STATUS:
