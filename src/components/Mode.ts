@@ -2,7 +2,7 @@ import {
   MeshBasicMaterial,MeshStandardMaterial,
   Mesh, PerspectiveCamera,Raycaster,
   Scene,Texture,TextureLoader,
-  WebGLRenderer, Vector2, Color
+  WebGLRenderer, Vector2, Color, RGBAFormat
 } from 'three'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -52,7 +52,7 @@ export default class Mode{
     
     // console.log("canvas: ",canvas);
     this.renderer = new WebGLRenderer({ canvas })
-    this.scene=new Scene()
+    this.scene = new Scene()
     this.camera = new PerspectiveCamera(
       45, canvas.width / canvas.height, 0.1, 1000
     )
@@ -62,7 +62,7 @@ export default class Mode{
       this.camera,
       this.renderer.domElement
     );
-    this.modelPath=modelPath
+    this.modelPath = modelPath
 
     this.renderer.setClearColor(new THREE.Color(0x666666))
 
@@ -74,14 +74,16 @@ export default class Mode{
 
     gltfLoader.load(this.modelPath + modelName, ({ scene: { children } }) => {
 
-      // console.log("children:",...children);
+      console.log("children:",...children);
 
       children.forEach((obj:Mesh,index) => {
-        if(obj.material) {
+        if(obj.material) { // 只有 Floor会走这里
+          // console.log("obj",obj);
+          // console.log(obj.material)
           const { map,color} = obj.material as MeshStandardMaterial;
           this.changeMat(obj,map,color);
         }
-        if(obj.name.includes('build')) {
+        if(obj.name.includes('build')) { // 把建筑全push到数组内
           this.Builds.push(obj);
         }
 
@@ -106,19 +108,21 @@ export default class Mode{
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         raycaster.setFromCamera(mouse, this.camera);
         const intersects = raycaster.intersectObjects(this.Builds)[0];
-        const index = intersects?.object?.parent?.name.slice(-1);
+        const index = intersects?.object?.parent?.name.slice(6);
         this.onMouseClickBuild(index);
       }
     ) 
   }
 
   // 修改材质
-  changeMat(obj: Mesh, map: Texture, color: Color) {
+  changeMat(obj: Mesh, map: Texture, _color: Color) {
     if (map) {
       obj.material = new MeshBasicMaterial({
         map: this.crtTexture(map.name)
       })
-    } else {
+    } else { // floor的map为undefined
+      // obj.material = new MeshBasicMaterial({color})
+      let color: Color = new THREE.Color(0x9C9C9C); // 给地板换色
       obj.material = new MeshBasicMaterial({color})
     }
   }
@@ -162,16 +166,12 @@ export default class Mode{
     )
     // 选择建筑
     const intersect = raycaster.intersectObjects(Builds)[0]
+    // 在你指向一个建筑的时候，intersectObj比上面拿到的curBuild先获取到目标建筑对象，之后两者一致
     let intersectObj = intersect? intersect.object as Mesh : null
-
-    // console.log("curBuild:",curBuild);
-    // console.log("intersectObj:",intersectObj);
-
 
     // 若之前已有建筑被选择，且不等于当前所选择的建筑，取消之前选择的建筑的高亮
     if (curBuild && curBuild !== intersectObj) {
-
-      const material = curBuild.material as MeshBasicMaterial;
+      // const material = curBuild.material as MeshBasicMaterial;
       let arr = curBuild.parent.children;
       arr.forEach((obj:Mesh,index) => {
         let _material = obj.material as MeshBasicMaterial;
@@ -193,8 +193,8 @@ export default class Mode{
     */
 
       
-    if (intersectObj) {
-      this.onMouseMoveBuild(x,y)
+    if (intersectObj) { // 说明鼠标获取到了目标建筑
+      this.onMouseMoveBuild(x,y) // 主要是获取位置，好去显示信息面板
       if (intersectObj !== curBuild) {
         this.curBuild = intersectObj
         const material = intersectObj.material as MeshBasicMaterial

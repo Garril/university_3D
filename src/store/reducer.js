@@ -24,8 +24,8 @@ function reducer(state = defaultState, action) {
       if(example) {
         state.cur_ondata = example.ondata; // 保存当前查询日期 eg：2022-x-y
         state.cur_week = example.week; // 保存当前查询为周几 eg：周一 保存数字1
-        state.cur_bid = example.bid.toString(); // 保存当前被查询建筑的bid
-        state.cur_key = example.bid + '-' + example.ondata; // 教学楼编号和data进行拼装，作为唯一的属性key
+        state.cur_bid = parseInt(example.bid).toString(); // 保存当前被查询建筑的bid --- parseInt为了去掉数字前面的0
+        state.cur_key = parseInt(example.bid) + '-' + example.ondata; // 教学楼编号和data进行拼装，作为唯一的属性key
       }
       state.class_data[state.cur_key] = data;
       return { ...state };
@@ -35,9 +35,10 @@ function reducer(state = defaultState, action) {
       if(data) {
         state.cur_ondata = data.ondata; // 保存当前查询日期 eg：2022-x-y
         state.cur_week = data.week.toString(); // 保存当前查询为周几 eg：周一 保存数字1
-        state.cur_bid = data.bid.toString(); // 保存当前被查询建筑的bid
+        state.cur_bid = parseInt(data.bid).toString(); // 保存当前被查询建筑的bid
         state.cur_key = data.key;
       }
+      console.log(data)
       return { ...state };
 
     case CHANGE_TABLE_OPEN_STATUS:

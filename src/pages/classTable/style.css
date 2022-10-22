@@ -30,13 +30,14 @@
   justify-content: flex-end;
 }
 .title {
-  width: 150px;
-  text-align: center;
+  width: 20%;
+  text-align: left;
+  padding-left: 16px;
   font-size: 18px;
   font-weight: bolder;
 }
 .middle {
-  width: 80%;
+  width: 75%;
 }
 .close {
   flex: 1;

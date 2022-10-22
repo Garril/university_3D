@@ -118,7 +118,7 @@ const App: React.FC = () => {
   store.subscribe(() => {
     let _key = store.getState().cur_key;
     let list = store.getState().class_data[_key];
-    
+    // console.log(_key,list);
     setData(list);
     setTotal(list?.length);
   })

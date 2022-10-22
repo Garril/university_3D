@@ -24,12 +24,14 @@ const App: React.FC = () => {
     setOpen(data.open);
     setCurBid(data.cur_bid);
     setCurWeek(data.cur_week);
+    // console.log("data:",data);
+    // console.log("data.cur_bid:",data.cur_bid);
   })
 
   return (
     <div id="container" className={open?'display_block':'display_none'}>
       <header onClick={handleCancel} className='header'>
-        <span className='title'>{'教' + cur_bid + '-周' + translateWeek(cur_week) + '-课表'}</span>
+      <span className='title'>{parseInt(cur_bid) <= 6 ? ('教' + cur_bid + '-周' + translateWeek(cur_week) + '-课表') : ((parseInt(cur_bid) - 6) + "号大教室" + '-周' + translateWeek(cur_week) + '-课表')}</span>
         <span className='middle'></span>
         <span className='close'>×</span>
       </header>

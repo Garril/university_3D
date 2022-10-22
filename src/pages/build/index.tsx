@@ -36,7 +36,10 @@ const Build = memo((props: any) => {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
     room = new Mode(canvas)
-    room.loadGLTF('university.gltf')
+
+    // 加载school.gltf
+    room.loadGLTF('school.gltf')
+
     room.animate()
     // 显示信息面板
     room.onMouseOverBuild = (e) => {
@@ -60,6 +63,21 @@ const Build = memo((props: any) => {
         case 'build_06':
           setCurBuild({ bname: '教六'});
           break;
+        case 'build_07':
+          setCurBuild({ bname: '一号大教室'});
+          break;
+        case 'build_08':
+          setCurBuild({ bname: '二号大教室'});
+          break;
+        case 'build_09':
+          setCurBuild({ bname: '三号大教室'});
+          break;
+        case 'build_10':
+          setCurBuild({ bname: '四号大教室'});
+          break;
+        case 'build_11':
+          setCurBuild({ bname: '五号大教室'});
+          break;        
         default:
           break;
       }
@@ -83,13 +101,15 @@ const Build = memo((props: any) => {
     room.onMouseClickBuild = (bid: string) => {
       if(bid) {
         let _data = getToday();
-        let key = bid + '-' + _data;
+        let t_bid = parseInt(bid);
+        let key = t_bid + '-' + _data;
         let cur_item = {
           ondata: _data,
-          bid: bid,
+          bid: t_bid,
           week: getTodayWeek(),
           key: key
         };
+        // console.log(cur_item);
         store.dispatch(changeCurClassList(cur_item))
         store.dispatch(changeTabelOpenStatus(true));
       }
