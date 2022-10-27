@@ -1,0 +1,55 @@
+#weather_week {
+  flex: 1;
+  background-color: rgba(70, 129, 192,.6);
+  border-top: 1px solid rgb(70, 129, 192);
+  border-radius: 10px 10px 0 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow-y:scroll;
+}
+#weather_week div.week_title {
+  text-indent: 1rem;
+  padding: 5px 0;
+  color: rgba(210, 231, 243,.7);
+  background-color: rgb(95, 141, 197);
+}
+#weather_week div.week_list {
+  flex: 1;
+  margin-top: -5px;
+}
+div.week_list div.week_item {
+  display: flex;
+}
+div.week_list div.week_item span {
+  flex: 1;
+  color: rgb(253, 252, 251);
+  font-size: 18px;
+  text-align: center;
+
+  display: inline-block;
+  height: 45px;
+  line-height: 45px;
+  border-bottom: 1px solid rgb(166, 168, 190);
+}
+
+.day_wea_img img{
+  width: auto;  
+  height: auto;  
+  max-width: 70%;  
+  max-height: 70%;
+}
+div.week_list div.week_item span.night_tem {
+  color: rgb(180, 215, 243);
+}
+.week_left,
+.week_right {
+  flex: 1;
+  display: flex;
+}
+div.week_right span.tem_mid_line {
+  width: 170px;
+  margin: 0 -10px;
+  padding-top: 10px;
+}

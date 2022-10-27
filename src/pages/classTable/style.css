@@ -2,14 +2,15 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%,-52%);
   background-color: rgb(255, 255, 255);
   z-index: 999;
-  width: 70%;
-  height: 89%;
+  width: 65%;
+  height: 80%;
   border: 1px solid grey;
   border-radius: 1%;
   box-shadow: 5px 3px 10px #7db3ca;
+  padding-bottom: 20px;
 }
 
 #list {

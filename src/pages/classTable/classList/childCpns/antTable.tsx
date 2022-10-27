@@ -6,7 +6,7 @@ import type { FilterConfirmProps } from 'antd/es/table/interface';
 import React, { useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 
-import store from '../../../store/index'
+import store from '../../../../store/index'
 import './antTable.css'
 
 interface DataType {

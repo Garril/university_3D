@@ -1,0 +1,33 @@
+#weather_today {
+  width: 100%;
+  height: 43%;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: rgb(244, 248, 246);
+  padding-top: 10px;
+}
+#weather_today div {
+  width: 100%;
+  text-align: center;
+}
+#weather_today div.title {
+  font-size: 28px;
+  font-weight: 500;
+}
+#weather_today span.tem {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 300;
+  font-size: 90px;
+  margin: -33px 0 -33px 0;
+  transform: translateX(15px);
+}
+#weather_today div.wea{
+  font-size: 20px;
+}
+#weather_today div.range {
+  font-size: 20px;
+}

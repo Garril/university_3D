@@ -9,7 +9,7 @@ import {
 } from '../../store/actionCreators'
 
 // 组件
-import ClassList from './classList/classList'
+import ClassList from './classList/index'
 
 import { // 工具函数
   translateWeek

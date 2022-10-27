@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 
-import './classList.css'
+import './index.css'
 
-import AntTable from './antTable'
+import AntTable from './childCpns/antTable'
 
 
 const App: React.FC = () => {

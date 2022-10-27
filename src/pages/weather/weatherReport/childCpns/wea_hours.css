@@ -1,0 +1,49 @@
+#weather_hours {
+  width: 100%;
+  height: 25%;
+  border-top: 1px solid rgb(70, 129, 192);
+  border-bottom: 1px solid rgb(70, 129, 192);
+  border-radius: 10px;
+  background-color: rgba(70, 129, 192,.5);
+  margin-bottom: 3px;
+}
+#weather_hours div.hum {
+  text-indent: 1rem;
+  font-size: 16px;
+  font-family:'Courier New', Courier, monospace;
+  padding: 5px 0;
+  border-bottom: 1px solid rgb(166, 168, 190);
+  color: rgb(210, 231, 243);
+}
+#weather_hours div.hum span:first-child {
+  padding-right: 50px;
+}
+#hours_container {
+  display: flex;
+}
+#hours_container div.hours_item {
+  color: rgb(210, 231, 235);
+  flex: 1;
+  height: 100px;
+  padding-top: 10px;
+}
+div.hours_item {
+  display: flex;
+  flex-direction: column;
+}
+div.hours_item div.hours_pos {
+  flex: 1;
+  text-align: center;
+}
+div.hours_wea_img img{
+  width: auto;  
+  height: auto;  
+  max-width: 70%;  
+  max-height: 70%;
+}
+div.hours_item div.hours_time,
+div.hours_item div.hours_tem {
+  font-weight: 600;
+  font-size: 15px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
