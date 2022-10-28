@@ -9,6 +9,7 @@ body{
 #root{
   height: 100%;
 }
-::-webkit-scrollbar {
+/* 天气那里最后的滚动条，不显示*/
+#wea_report ::-webkit-scrollbar {
   display: none;
 }

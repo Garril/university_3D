@@ -4,7 +4,8 @@ import {
   CHANGE_TABLE_OPEN_STATUS,
   CHANGE_CUR_CLASS_LIST,
   SAVE_EMPTY,
-  IS_EMPTY_STATUS
+  IS_EMPTY_STATUS,
+  SAVE_USER_INFO
 } from './constants';
 
 const defaultState = {
@@ -17,6 +18,8 @@ const defaultState = {
   // 空教室相关
   empty_data: {},
   isEmpty: false,
+  // 用户相关
+  userInfo: {}
 }
 
 let data,key,example;
@@ -61,6 +64,10 @@ function reducer(state = defaultState, action) {
         state.cur_key = key;
       }
       return { ...state };
+
+    case SAVE_USER_INFO:
+      return { ...state, userInfo: action.user };
+
     default:
       return state;
   }

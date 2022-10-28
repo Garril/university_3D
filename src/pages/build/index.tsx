@@ -1,6 +1,6 @@
 import { useState, memo, useEffect, useCallback } from 'react';
 import './style.css';
-import Mode from '../../components/Mode';
+import Mode from '../../components/mode/Mode';
 
 import { 
   getBuildClassData 

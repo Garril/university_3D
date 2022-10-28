@@ -30,4 +30,5 @@ arr.forEach( item => {
   })
 })
 
+
 export default store;
