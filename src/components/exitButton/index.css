@@ -1,0 +1,22 @@
+#exit {
+  width: 80px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  text-align: center;
+  color: rgb(28, 31, 33);
+
+  position: fixed;
+  top: 30px;
+  right: 0px;
+  z-index: 999;
+
+  border-radius: 12px 0 0 12px;
+  box-shadow: 2px 1px 8px rgb(65, 37, 37);
+  background-color: rgb(186, 56, 56);
+}
+#exit:hover {
+  background-color: rgba(4, 80, 255, 0.2);
+  color: white;
+  cursor: pointer;
+}

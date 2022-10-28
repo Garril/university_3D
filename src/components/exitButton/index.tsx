@@ -5,7 +5,7 @@ const App: React.FC = () => {
 
   return (
     <div id="exit">
-      <button>退出</button>
+      <span onClick={() => window.location.href="/login" }>退出</span>
     </div>
   );
 };

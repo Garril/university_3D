@@ -120,7 +120,7 @@ const App: React.FC = () => {
   });
 
   store.subscribe(() => {
-    console.log(store.getState());
+    // console.log(store.getState());
     let _key = store.getState().cur_key;
     let _isEmpty = store.getState().isEmpty;
     let list;

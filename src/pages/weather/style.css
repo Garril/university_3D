@@ -23,7 +23,9 @@
   transition: width .3s, height .3s, transform .3s;
 }
 #arrow:hover {
-  background-color: rgba(247, 244, 244,.7);
+  background-color: rgba(4, 80, 255, 0.2);
+  color: white;
+  cursor: pointer;
 }
 .web_is_show {
   transform: translateX(-370px);
