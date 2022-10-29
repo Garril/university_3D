@@ -1,9 +1,15 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import React,{ useState }from 'react';
+import { useNavigate } from "react-router-dom";
 
 import {
   userLogin
 } from '../../../service/login'
+
+import store from '../../../store/index'
+import {
+  saveUserInfo
+} from '../../../store/actionCreators'
 
 interface valueProps {
   username: string;
@@ -12,7 +18,9 @@ interface valueProps {
 }
 
 const App: React.FC = (props) => {
+
   // const [userInfo,setUserInfo] = useState(null);
+  const navigate  = useNavigate();
 
   const onFinish = (values: valueProps) => {
     let user = {
@@ -23,7 +31,9 @@ const App: React.FC = (props) => {
         if(res[0]) {
           // console.log(res[0]);
           // setUserInfo(res[0]);
-          window.location.href = "/home";
+          navigate("/home");
+          store.dispatch(saveUserInfo(res[0]));
+          // window.location.href = "/home";
         } else {
           alert("帐号或密码错误!")
         }
